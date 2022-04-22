@@ -1,0 +1,96 @@
+.table {
+    background-color: white;
+    width: 60%;
+    height: 100%;
+    margin: 10% 20%;
+    display: flex;
+    flex-direction: column;
+}
+
+.topbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 80px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.topbar__name {
+    padding-left: 3rem;
+}
+
+.topbar__last {
+    display: flex;
+    justify-content: flex-end;
+    width: 40%;
+    align-items: center;
+    overflow: hidden;
+}
+
+.topbar__input {
+    margin: 0 3px;
+}
+
+.topbar__input input {
+    border-radius: 10px;
+    outline: none;
+    padding: 5px 20px;
+    border: 2px solid #4b6cb7;
+}
+
+.topbar__add {
+    padding: 2rem;
+}
+
+.button_add {
+    background-image: linear-gradient(to right, #4b6cb7 0%, #182848 51%, #4b6cb7 100%);
+}
+
+.button_add {
+    padding: 15px 25px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    border-radius: 10px;
+    display: block;
+    outline: none;
+    border: none;
+}
+
+.button_add:hover {
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
+    outline: none;
+}
+
+.table__display {
+    background-color: bisque;
+    display: flex;
+    width: 100%;
+    height: 50px;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+.table__display div {
+    flex: 1;
+}
+
+.table__display_data {
+    background-color: aquamarine;
+    display: flex;
+    width: 100%;
+    height: 50px;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+.table__display_data div {
+    flex: 1;
+}
