@@ -2,24 +2,15 @@ import React, { useState } from "react";
 import './Table.css';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import Display from "./Display";
+import { data } from './Data';
 
 const Table = () => {
 
-    const [mainSelect, setMainSelect] = useState(false);
-    const [select, setSelect] = useState(false);
-
+    const [selectedItems, setSelectedItems] = useState([]);
+    const [selectAll, setSelectAll] = useState(false);
 
     const handleCheck = (e) => {
-        setMainSelect(e.target.checked)
-        setSelect(e.target.checked)
-    }
-
-    const handleChange = (e) => {
-        if (mainSelect === 'checked') {
-            setSelect(e.target.checked)
-        } else {
-            setSelect(e.target.checked)
-        }
+        setSelectAll(e.target.checked)
     }
 
     return (
@@ -39,11 +30,12 @@ const Table = () => {
             </div>
             <div className="table__display">
                 <div className="checkbox">
-                    <input type="checkbox" name="check" id="check" checked={mainSelect} onChange={handleCheck} />
+                    <input type="checkbox" name="check" id="check" checked={selectAll}
+                        onChange={handleCheck}
+                    />
                 </div>
                 <div className="name">
                     <h6>Name</h6>
-
                 </div>
                 <div className="username">
                     <h6>Username</h6>
@@ -61,10 +53,22 @@ const Table = () => {
                     <h6>Address</h6>
                 </div>
             </div>
-            <Display select={select} handleChange={handleChange} />
-
+            <h1>{selectedItems.length}{data.length}</h1>
+            {data.map((d) => {
+                return (
+                    <>
+                        <Display
+                            setSelectedItems={setSelectedItems}
+                            selectedItems={selectedItems}
+                            selectAll={selectAll}
+                            setSelectAll={setSelectAll}
+                            totalDataCount={data.length}
+                            d={d}
+                        />
+                    </>
+                )
+            })}
         </div>
     )
 }
-
 export default Table;
