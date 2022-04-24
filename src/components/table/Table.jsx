@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './Table.css';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import Display from "./Display";
@@ -6,11 +6,21 @@ import { data } from './Data';
 
 const Table = () => {
 
-    const [selectedItems, setSelectedItems] = useState([]);
-    const [selectAll, setSelectAll] = useState(false);
+    const [users, setUsers] = useState([]);
 
-    const handleCheck = (e) => {
-        setSelectAll(e.target.checked)
+    useEffect(() => {
+        setUsers(data);
+    }, [])
+
+    const handleChange = (e) => {
+        const { name, checked } = e.target;
+        if (name === 'main') {
+            let tempUser = users.map((user) => { return { ...user, isChecked: checked } });
+            setUsers(tempUser);
+        } else {
+            let tempUser = users.map((user) => user.id === name ? { ...user, isChecked: checked } : user);
+            setUsers(tempUser);
+        }
     }
 
     return (
@@ -30,8 +40,12 @@ const Table = () => {
             </div>
             <div className="table__display">
                 <div className="checkbox">
-                    <input type="checkbox" name="check" id="check" checked={selectAll}
-                        onChange={handleCheck}
+                    <input
+                        type="checkbox"
+                        name='main'
+                        id="check"
+                        checked={users.filter(user => user.isChecked !== true).length < 1}
+                        onChange={handleChange}
                     />
                 </div>
                 <div className="name">
@@ -53,17 +67,12 @@ const Table = () => {
                     <h6>Address</h6>
                 </div>
             </div>
-            <h1>{selectedItems.length}{data.length}</h1>
-            {data.map((d) => {
+            {users.map((user) => {
                 return (
                     <>
                         <Display
-                            setSelectedItems={setSelectedItems}
-                            selectedItems={selectedItems}
-                            selectAll={selectAll}
-                            setSelectAll={setSelectAll}
-                            totalDataCount={data.length}
-                            d={d}
+                            user={user}
+                            handleChange={handleChange}
                         />
                     </>
                 )

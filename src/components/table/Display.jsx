@@ -1,83 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-const Display = ({ setSelectedItems, selectedItems, dataCount, selectAll, setSelectAll, d }) => {
-
-    const [selected, setSelected] = useState(false);
-    const triggerSelection = (checked, id) => {
-        // selectedItems.filter((item) => {
-        //     console.log(item, id);
-        //     console.log('filtering', item != id);
-        // })
-        setSelected(checked);
-        setSelectedItems((init) => {
-            console.log(init)
-            let filteredItems = init.filter((item) => {
-                if (item != id) {
-                    return [...init, id]
-                } else {
-                    return init;
-                }
-            })
-            return filteredItems;
-        })
-
-    }
-
-    useEffect(() => {
-        console.log('CHekcking', selectedItems.length);
-        if (selectedItems.length == dataCount) {
-            console.log('12345', selectedItems.length);
-            setSelectAll(true)
-        } else {
-            setSelectAll(false)
-        }
-
-        return () => {
-
-        }
-    }, [selectedItems.length])
-
-
-    useEffect(() => {
-        if (selectAll) {
-            setSelected(true);
-        } else {
-            setSelected(false);
-        }
-        return () => {
-
-        }
-    }, [selectAll])
+const Display = ({ user, handleChange }) => {
 
 
     return (
         <>
-            <div className="table__display_data" key={d.id}>
+            <div className="table__display_data" key={user.id}>
                 <div className="checkbox">
-                    <input type="checkbox"
-                        onChange={(e) => {
-                            triggerSelection(e.target.checked, d.id)
-                        }}
-                        name="check" checked={selected} />
+                    <input
+                        type="checkbox"
+                        name={user.id}
+                        checked={user.isChecked || false}
+                        onChange={handleChange} />
                 </div>
                 <div className="name">
-                    <p>{d.name}</p>
+                    <p>{user.name}</p>
 
                 </div>
                 <div className="username">
-                    <p>{d.username}</p>
+                    <p>{user.username}</p>
                 </div>
                 <div className="email">
-                    <p>{d.email}</p>
+                    <p>{user.email}</p>
                 </div>
                 <div className="phone">
-                    <p>{d.phone}</p>
+                    <p>{user.phone}</p>
                 </div>
                 <div className="website">
-                    <p>{d.website}</p>
+                    <p>{user.website}</p>
                 </div>
                 <div className="address">
-                    <p>{d.address.street}</p>
+                    <p>{user.address.street}</p>
                 </div>
             </div>
         </>
