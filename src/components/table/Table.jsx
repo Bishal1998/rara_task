@@ -1,12 +1,26 @@
 import React, { useState, useEffect } from "react";
 import './Table.css';
-import { AiOutlinePlusCircle } from 'react-icons/ai';
 import Display from "./Display";
 import { data } from './Data';
+import Button from "../button/Button";
+import { useDebounce } from 'use-debounce';
+
 
 const Table = () => {
 
     const [users, setUsers] = useState([]);
+    const [searchData, setSearchData] = useState('');
+
+    const [totalDisplay, setTotalDisplay] = useState(true);
+
+    const deb = useDebounce(searchData.toLowerCase(), 1000);
+
+    // if (deb === '') {
+    //     setTotalDisplay(true)
+    // } else {
+    //     setTotalDisplay(false)
+    // }
+
 
     function compareUserByUserName(a, b) {
         if (a.username < b.username) {
@@ -38,14 +52,18 @@ const Table = () => {
             <div className="topbar">
                 <div className="topbar__name">
                     <p>Users</p>
+                    <p>{deb}</p>
                 </div>
                 <div className="topbar__last">
                     <div className="topbar__input">
-                        <input type="text" placeholder="Search here" />
+                        <input
+                            type="text"
+                            placeholder="Search here"
+                            value={searchData}
+                            onChange={(e) => setSearchData(e.target.value)}
+                        />
                     </div>
-                    <div className="topbar__add">
-                        <button className="button_add"><AiOutlinePlusCircle /> Add New</button>
-                    </div>
+                    <Button text='Add New' />
                 </div>
             </div>
             <div className="table__display">
@@ -80,10 +98,11 @@ const Table = () => {
             {users.map((user) => {
                 return (
                     <>
-                        <Display
-                            user={user}
-                            handleChange={handleChange}
-                        />
+                        {totalDisplay &&
+                            <Display
+                                user={user}
+                                handleChange={handleChange}
+                            />}
                     </>
                 )
             })}

@@ -2,7 +2,6 @@ import React from 'react';
 
 const Display = ({ user, handleChange }) => {
 
-
     return (
         <>
             <div className="table__display_data" key={user.id}>

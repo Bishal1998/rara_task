@@ -1,9 +1,12 @@
 import React from 'react';
 import './Button.css';
+import { AiOutlinePlusCircle } from 'react-icons/ai';
 
-const Button = () => {
+const Button = ({ text }) => {
     return (
-        <div>Button</div>
+        <div className="topbar__add">
+            <button className="button_add"><AiOutlinePlusCircle /> {text}</button>
+        </div>
     )
 }
 
