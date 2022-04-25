@@ -8,8 +8,18 @@ const Table = () => {
 
     const [users, setUsers] = useState([]);
 
+    function compareUserByUserName(a, b) {
+        if (a.username < b.username) {
+            return -1;
+        }
+        if (a.username > b.username) {
+            return 1;
+        }
+        return 0;
+    }
+
     useEffect(() => {
-        setUsers(data);
+        setUsers(data.sort(compareUserByUserName));
     }, [])
 
     const handleChange = (e) => {
