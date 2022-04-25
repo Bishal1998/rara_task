@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import './App.css';
-import Table from './components/table/Table';
 import React from 'react';
+import DataFetch from './components/data/DataFetch';
 
 
 const queryClient = new QueryClient();
@@ -9,7 +9,7 @@ const queryClient = new QueryClient();
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <Table />
+      <DataFetch />
     </QueryClientProvider>
   );
 }

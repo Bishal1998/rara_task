@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import './Table.css';
 import Display from "./Display";
-import { data } from './Data';
 import Button from "../button/Button";
 import debounce from 'lodash.debounce';
 
 
-const Table = () => {
+const Table = ({ data }) => {
 
     const [users, setUsers] = useState([]);
     const [searchData, setSearchData] = useState('');
@@ -20,14 +19,6 @@ const Table = () => {
         debounce(changeHandler, 100)
         , []);
 
-
-    const keys = ['id', 'name', 'username', 'email', 'phone', 'website', 'address.street'];
-
-    // const search = (data) => {
-    //     return data.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchData.toLowerCase())))
-    // }
-
-
     const compareUserByUserName = (a, b) => {
         if (a.username < b.username) {
             return -1;
@@ -38,22 +29,18 @@ const Table = () => {
         return 0;
     }
 
-    // useEffect(() => {
-    //     setUsers(data.sort(compareUserByUserName));
-    // }, [])
-
 
     useEffect(() => {
+
         if (searchData) {
             setUsers(() => {
                 // console.log('changing', searchData)
+
                 let filteredData = data.filter((item) => {
+
                     return item.username.toLowerCase().includes(searchData.toLowerCase()) || item.name.toLowerCase().includes(searchData.toLowerCase()) || item.email.toLowerCase().includes(searchData.toLowerCase()) || item.phone.toLowerCase().includes(searchData.toLowerCase()) || item.website.toLowerCase().includes(searchData.toLowerCase()) || item.address.street.toLowerCase().includes(searchData.toLowerCase())
 
                 })
-                // let filteredData = data.filter((item) => {
-                //     return keys.some((key) => item[key].toLowerCase().includes(searchData.toLowerCase()))
-                // })
                 return filteredData.sort(compareUserByUserName)
             });
         } else {
@@ -81,7 +68,6 @@ const Table = () => {
             <div className="topbar">
                 <div className="topbar__name">
                     <p>Users</p>
-                    <p>{searchData}</p>
                 </div>
                 <div className="topbar__last">
                     <div className="topbar__input">
@@ -129,6 +115,7 @@ const Table = () => {
                         <Display
                             user={user}
                             handleChange={handleChange}
+                            key={user.id}
                         />
                     </>
                 )
