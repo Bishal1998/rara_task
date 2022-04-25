@@ -17,14 +17,14 @@ const Table = () => {
     };
 
     const debouncedChangeHandler = useCallback(
-        debounce(changeHandler, 500)
+        debounce(changeHandler, 100)
         , []);
 
 
-    // const keys = ['id', 'name', 'username', 'email', 'phone', 'website', 'address.street'];
+    const keys = ['id', 'name', 'username', 'email', 'phone', 'website', 'address.street'];
 
     // const search = (data) => {
-    //     return data.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchData)))
+    //     return data.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchData.toLowerCase())))
     // }
 
 
@@ -38,24 +38,31 @@ const Table = () => {
         return 0;
     }
 
-    useEffect(() => {
-        setUsers(data.sort(compareUserByUserName));
-    }, [])
-
     // useEffect(() => {
-    //     if (searchData) {
-    //         setUsers((init) => {
-    //             let filteredData = init.filter((item) => item.username.includes(searchData))
-    //             return filteredData.sort(compareUserByUserName)
-    //         });
-    //     } else {
-    //         setUsers(data.sort(compareUserByUserName));
-    //     }
+    //     setUsers(data.sort(compareUserByUserName));
+    // }, [])
 
-    //     return () => {
 
-    //     }
-    // }, [searchData.length])
+    useEffect(() => {
+        if (searchData) {
+            setUsers(() => {
+                // console.log('changing', searchData)
+                let filteredData = data.filter((item) => {
+                    return item.username.toLowerCase().includes(searchData.toLowerCase()) || item.name.toLowerCase().includes(searchData.toLowerCase()) || item.email.toLowerCase().includes(searchData.toLowerCase()) || item.phone.toLowerCase().includes(searchData.toLowerCase()) || item.website.toLowerCase().includes(searchData.toLowerCase()) || item.address.street.toLowerCase().includes(searchData.toLowerCase())
+
+                })
+                // let filteredData = data.filter((item) => {
+                //     return keys.some((key) => item[key].toLowerCase().includes(searchData.toLowerCase()))
+                // })
+                return filteredData.sort(compareUserByUserName)
+            });
+        } else {
+            setUsers(data.sort(compareUserByUserName));
+        }
+        return () => {
+
+        }
+    }, [searchData.length])
 
 
     const handleChange = (e) => {
@@ -81,7 +88,6 @@ const Table = () => {
                         <input
                             type="text"
                             placeholder="Search here"
-                            defaultValue={searchData}
                             onChange={debouncedChangeHandler}
                         />
                     </div>
