@@ -4,7 +4,7 @@ const Display = ({ user, handleChange }) => {
 
     return (
         <>
-            <div className="table__display_data">
+            <div className="table__display_data" >
                 <div className="checkbox">
                     <input
                         type="checkbox"

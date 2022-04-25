@@ -111,13 +111,11 @@ const Table = ({ data }) => {
             </div>
             {users.map((user) => {
                 return (
-                    <>
-                        <Display
-                            user={user}
-                            handleChange={handleChange}
-                            key={user.id}
-                        />
-                    </>
+                    <Display
+                        user={user}
+                        handleChange={handleChange}
+                        key={user.id}
+                    />
                 )
             })}
         </div>
