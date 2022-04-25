@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import './Table.css';
 import Display from "./Display";
 import { data } from './Data';
 import Button from "../button/Button";
-import { useDebounce } from 'use-debounce';
+import debounce from 'lodash.debounce';
 
 
 const Table = () => {
@@ -11,18 +11,24 @@ const Table = () => {
     const [users, setUsers] = useState([]);
     const [searchData, setSearchData] = useState('');
 
-    const [totalDisplay, setTotalDisplay] = useState(true);
 
-    const deb = useDebounce(searchData.toLowerCase(), 1000);
+    const changeHandler = event => {
+        setSearchData(event.target.value);
+    };
 
-    // if (deb === '') {
-    //     setTotalDisplay(true)
-    // } else {
-    //     setTotalDisplay(false)
+    const debouncedChangeHandler = useCallback(
+        debounce(changeHandler, 500)
+        , []);
+
+
+    // const keys = ['id', 'name', 'username', 'email', 'phone', 'website', 'address.street'];
+
+    // const search = (data) => {
+    //     return data.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchData)))
     // }
 
 
-    function compareUserByUserName(a, b) {
+    const compareUserByUserName = (a, b) => {
         if (a.username < b.username) {
             return -1;
         }
@@ -35,6 +41,22 @@ const Table = () => {
     useEffect(() => {
         setUsers(data.sort(compareUserByUserName));
     }, [])
+
+    // useEffect(() => {
+    //     if (searchData) {
+    //         setUsers((init) => {
+    //             let filteredData = init.filter((item) => item.username.includes(searchData))
+    //             return filteredData.sort(compareUserByUserName)
+    //         });
+    //     } else {
+    //         setUsers(data.sort(compareUserByUserName));
+    //     }
+
+    //     return () => {
+
+    //     }
+    // }, [searchData.length])
+
 
     const handleChange = (e) => {
         const { name, checked } = e.target;
@@ -52,15 +74,15 @@ const Table = () => {
             <div className="topbar">
                 <div className="topbar__name">
                     <p>Users</p>
-                    <p>{deb}</p>
+                    <p>{searchData}</p>
                 </div>
                 <div className="topbar__last">
                     <div className="topbar__input">
                         <input
                             type="text"
                             placeholder="Search here"
-                            value={searchData}
-                            onChange={(e) => setSearchData(e.target.value)}
+                            defaultValue={searchData}
+                            onChange={debouncedChangeHandler}
                         />
                     </div>
                     <Button text='Add New' />
@@ -98,11 +120,10 @@ const Table = () => {
             {users.map((user) => {
                 return (
                     <>
-                        {totalDisplay &&
-                            <Display
-                                user={user}
-                                handleChange={handleChange}
-                            />}
+                        <Display
+                            user={user}
+                            handleChange={handleChange}
+                        />
                     </>
                 )
             })}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Display = ({ user, handleChange }) => {
+const SearchData = ({ user, handleChange }) => {
 
     return (
         <>
@@ -14,6 +14,7 @@ const Display = ({ user, handleChange }) => {
                 </div>
                 <div className="name">
                     <p>{user.name}</p>
+
                 </div>
                 <div className="username">
                     <p>{user.username}</p>
@@ -35,4 +36,4 @@ const Display = ({ user, handleChange }) => {
     )
 }
 
-export default Display;
+export default SearchData;
